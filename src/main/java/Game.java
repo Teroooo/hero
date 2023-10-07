@@ -14,15 +14,15 @@ public class Game {
     public Hero hero;
 
     public Game() throws IOException {
-            hero = new Hero(10, 10);
-            Terminal terminal = new DefaultTerminalFactory().createTerminal();
-            screen = new TerminalScreen(terminal);
-            screen.setCursorPosition(null); // we don't need a cursor
-            screen.startScreen(); // screens must be started
-            screen.doResizeIfNecessary(); // resize screen if necessary
-            screen.clear();
-            screen.setCharacter(10, 10, TextCharacter.fromCharacter('X')[0]);
-            screen.refresh();
+        hero = new Hero(10, 10);
+        Terminal terminal = new DefaultTerminalFactory().createTerminal();
+        screen = new TerminalScreen(terminal);
+        screen.setCursorPosition(null); // we don't need a cursor
+        screen.startScreen(); // screens must be started
+        screen.doResizeIfNecessary(); // resize screen if necessary
+        screen.clear();
+        screen.setCharacter(10, 10, TextCharacter.fromCharacter('X')[0]);
+        screen.refresh();
     }
 
     //public void draw() throws IOException {
@@ -32,23 +32,23 @@ public class Game {
     //}
 
     private void processKey(KeyStroke key) throws IOException {
-            if (key.getKeyType() == KeyType.ArrowUp) {
-                hero.moveUp();
-                draw();
-            }
-            if (key.getKeyType() == KeyType.ArrowDown) {
-                hero.moveDown();
-                draw();
+        if (key.getKeyType() == KeyType.ArrowUp) {
+            moveHero(hero.moveUp());
+            draw();
+        }
+        if (key.getKeyType() == KeyType.ArrowDown) {
+            moveHero(hero.moveDown());
+            draw();
 
-            }
-            if (key.getKeyType() == KeyType.ArrowRight) {
-                hero.moveRight();
-                draw();
-            }
-            if (key.getKeyType() == KeyType.ArrowLeft) {
-                hero.moveLeft();
-                draw();
-            }
+        }
+        if (key.getKeyType() == KeyType.ArrowRight) {
+            moveHero(hero.moveRight());
+            draw();
+        }
+        if (key.getKeyType() == KeyType.ArrowLeft) {
+            moveHero(hero.moveLeft());
+            draw();
+        }
 
     }
 
@@ -67,6 +67,10 @@ public class Game {
         screen.clear();
         hero.draw(screen);
         screen.refresh();
+    }
+
+    private void moveHero(Position position) {
+        hero.setPosition(position);
     }
 
 }
