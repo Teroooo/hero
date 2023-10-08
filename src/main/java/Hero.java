@@ -6,10 +6,12 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 
 
-public class Hero {
+public class Hero extends Element {
     Position position;
 
     public Hero(int i, int i1) {
+        super(i, i1);
+
         position = new Position(i, i1);
     }
     public Position getPosition() {
