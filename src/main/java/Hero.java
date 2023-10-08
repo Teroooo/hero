@@ -11,7 +11,6 @@ public class Hero extends Element {
 
     public Hero(int i, int i1) {
         super(i, i1);
-
         position = new Position(i, i1);
     }
     public Position getPosition() {

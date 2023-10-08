@@ -15,6 +15,7 @@ public class Arena {
     private Hero hero;
     private List<Wall> walls;
     private List<Coin> coins;
+    private List<Monster> monsters;
 
     public Arena(int width, int height) {
         this.width = width;
@@ -23,7 +24,16 @@ public class Arena {
         hero = new Hero(width / 2, height / 2);
         this.walls = createWalls();
         this.coins = createCoins();
+        this.monsters = createMonsters();
 
+    }
+
+    private List<Monster> createMonsters() {
+        Random random = new Random();
+        ArrayList<Monster> monsters = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            monsters.add(new Monster(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+        return monsters;
     }
 
     void processKey(KeyStroke key) {
@@ -41,6 +51,26 @@ public class Arena {
         }
 
         retrieveCoins();
+
+        verifyMonsterCollisions();
+        moveMonsters();
+        verifyMonsterCollisions();
+    }
+
+    private void verifyMonsterCollisions() {
+        for (Monster monster : monsters)
+            if (hero.getPosition().equals(monster.getPosition())) {
+                System.out.println("You died!");
+                System.exit(0);
+            }
+    }
+
+    private void moveMonsters() {
+        for (Monster monster : monsters) {
+            Position monsterPosition = monster.move();
+            if (canHeroMove(monsterPosition))
+                monster.setPosition(monsterPosition);
+        }
     }
 
     private void retrieveCoins() {
@@ -60,6 +90,8 @@ public class Arena {
             wall.draw(graphics);
 
         for (Coin coin : coins) coin.draw(graphics);
+
+        for (Monster monster : monsters) monster.draw(graphics);
     }
 
 
